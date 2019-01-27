@@ -67,8 +67,7 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-      # apt-get update
-      # apt-get install -y apache2
+      apt-get update
       timedatectl set-timezone Asia/Tokyo
       apt install -y emacs25-nox
       cp /vagrant/dot.tmux.conf /home/vagrant/.tmux.conf
