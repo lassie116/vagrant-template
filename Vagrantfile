@@ -69,9 +69,16 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
       apt-get update
       timedatectl set-timezone Asia/Tokyo
-      apt install -y emacs25-nox
-      cp /vagrant/dot.tmux.conf /home/vagrant/.tmux.conf
-      chown vagrant /home/vagrant/.tmux.conf
-      chgrp vagrant /home/vagrant/.tmux.conf
+      apt install -y emacs25-nox zsh lv
+      chsh vagrant -s /usr/bin/zsh
   SHELL
+  
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+      cp /vagrant/dot.tmux.conf /home/vagrant/.tmux.conf
+
+      cp /vagrant/dot.zshrc /home/vagrant/.zshrc
+
+      ln -f -s /vagrant/project /home/vagrant/
+  SHELL
+
 end
