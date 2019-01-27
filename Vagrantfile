@@ -69,8 +69,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
       apt-get update
       timedatectl set-timezone Asia/Tokyo
-      apt install -y emacs25-nox zsh lv
+      apt-get install -y emacs25-nox zsh lv
       chsh vagrant -s /usr/bin/zsh
+
+      apt-get install -y gcc make libssl-dev libreadline-dev zlib1g-dev
   SHELL
   
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
@@ -79,6 +81,14 @@ Vagrant.configure("2") do |config|
       cp /vagrant/dot.zshrc /home/vagrant/.zshrc
 
       ln -f -s /vagrant/project /home/vagrant/
+  SHELL
+
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+      export RBENV=~/.rbenv/bin
+      export PATH=$RBENV:$PATH
+      curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash
+      rbenv install 2.6.0
+      rbenv global 2.6.0
   SHELL
 
 end
