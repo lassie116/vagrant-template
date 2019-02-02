@@ -66,7 +66,7 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
+  config.vm.provision "init env", type: "shell", inline: <<-SHELL
       apt-get update
       timedatectl set-timezone Asia/Tokyo
       apt-get install -y emacs25-nox zsh lv
@@ -75,19 +75,20 @@ Vagrant.configure("2") do |config|
       apt-get install -y gcc make libssl-dev libreadline-dev zlib1g-dev
   SHELL
   
-  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+  config.vm.provision "dot files", type: "shell", privileged: false, inline: <<-SHELL
       cp /vagrant/dot.tmux.conf /home/vagrant/.tmux.conf
-
       cp /vagrant/dot.zshrc /home/vagrant/.zshrc
+      cp /vagrant/dot.gitignore /home/vagrant/.gitignore
+      cp /vagrant/dot.gitconfig /home/vagrant/.gitconfig
 
       ln -f -s /vagrant/project /home/vagrant/
   SHELL
 
-  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+  config.vm.provision "ruby", type:"shell", privileged: false, inline: <<-SHELL
       export RBENV=~/.rbenv/bin
       export PATH=$RBENV:$PATH
       curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash
-      rbenv install 2.6.0
+      rbenv install -v 2.6.0
       rbenv global 2.6.0
   SHELL
 
