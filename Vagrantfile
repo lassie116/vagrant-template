@@ -92,4 +92,15 @@ Vagrant.configure("2") do |config|
       rbenv global 2.6.0
   SHELL
 
+  config.vm.provision "pyenv", type:"shell", privileged: false, inline: <<-SHELL
+      git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+      export PYENV_ROOT="$HOME/.pyenv"
+      export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init -)"
+      pyenv install -v anaconda3-5.3.1
+      pyenv rehash
+      pyenv global anaconda3-5.3.1
+      conda update conda
+  SHELL
+
 end
