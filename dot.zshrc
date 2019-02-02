@@ -9,7 +9,7 @@ alias ls="ls --color"
 autoload colors
 colors
 RPROMPT="%{${fg[yellow]}%}[%~]%{${reset_color}%}"
-PROMPT="%n@do$ "
+PROMPT="%n$ "
 bindkey -e                  # emacs keybind
 
 autoload -U compinit
